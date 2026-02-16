@@ -49,7 +49,8 @@ function pintarResumen(texto) {
     if (texto.length == 0){
         resumen.innerHTML = "Aún no hay palabras.";
     } else {
-        resumen.innerHTML = `Total de palabras: ${texto.length}<br>Total de caracteres: ${contarCaracteres(texto)}<br>Palabra más grande: ${texto[0]}<br>Palabra más pequeña: ${texto[texto.length-1]}<br>Palabras con más de 5 letras: ${palabrasCon5Letras(texto)}`;
+        resumenTexto(texto);
+        topLongitud(texto);
     }
 }
 function contarCaracteres(texto){
@@ -87,5 +88,11 @@ function limpiarTodo(){
     textoInput.value = "";
     textoInput.focus();
 }
+function resumenTexto(texto){
+    resumen.innerHTML = `Total de palabras: ${texto.length}<br>Total de caracteres: ${contarCaracteres(texto)}<br>Palabra más grande: ${texto[0]}<br>Palabra más pequeña: ${texto[texto.length-1]}<br>Palabras con más de 5 letras: ${palabrasCon5Letras(texto)}<br>`;
+}
+function topLongitud(texto){
+    resumen.innerHTML+= `Top 3 palabras más largas: <br>${texto[0]}, ${texto[1]}, ${texto[2]}<br>`
+}
 // PALABRAS ÚNICAS Y CONTAR CUANTAS VECES APARECE CADA PALABRA
-// DETECTAR PALÍNDROMOS, HACER TOP 3 PALABRAS MÁS LARGAS Y GENERAR UNA FRASE RESUMEN.
+// DETECTAR PALÍNDROMOS.
