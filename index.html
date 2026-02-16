@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analizador de texto</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="contenedor">
+    <h1>Analizador de texto</h1>
+
+    <section class="entrada">
+      <label for="input">Introduce el texto a analizar:</label>
+      <input type="text"/>
+      <button id="btnAgregar" type="button">Añadir</button>
+    </section>
+
+    <section class="resumen">
+      <h2>Resumen</h2>
+      <p id="txtResumen">No has introducido nada</p>
+    </section>
+
+    <p id="mensaje" class="mensaje" aria-live="polite"></p>
+  </main>
+</body>
+</html>
