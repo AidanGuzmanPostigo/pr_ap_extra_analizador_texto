@@ -16,7 +16,13 @@ function init(){
     }
   });
   analizar.addEventListener("click", () => {
-    analizarInput();
+    let texto = textoInput.value.trim().toLowerCase();
+    let aux="";
+    texto = analizarInput(texto);
+    texto = ordenarPalabras(texto);
+    aux = contarRepeticiones(texto);
+    texto = eliminarRepetidas(texto);
+    render(texto,aux);
     textoInput.value = "";
     textoInput.focus();
   });
@@ -24,17 +30,15 @@ function init(){
     limpiarTodo();
   });
 }
-function analizarInput(){
-    let texto = textoInput.value.trim().toLowerCase();
+function analizarInput(texto){
     if (texto === ""){
         mostrarMensaje("No se puede introducir un texto vacío.");
         return;
     }
-    texto = texto.split(/\s+/);
-    ordenarPalabras(texto);
+    return texto.split(/\s+/);
 }
-function render(texto){
-    pintarLista(texto);
+function render(texto, aux){
+    pintarLista(aux);
     pintarResumen(texto);
 }
 function pintarLista(texto) {
@@ -50,7 +54,6 @@ function pintarResumen(texto) {
         resumen.innerHTML = "Aún no hay palabras.";
     } else {
         resumenTexto(texto);
-        topLongitud(texto);
     }
 }
 function contarCaracteres(texto){
@@ -71,7 +74,7 @@ function palabrasCon5Letras(texto){
 }
 function ordenarPalabras(texto) {
   texto.sort((a,b) => b.length-a.length);
-  render(texto);
+  return texto;
 }
 function mostrarMensaje(texto) {
     error.innerHTML=`${texto}<br>`
@@ -89,10 +92,50 @@ function limpiarTodo(){
     textoInput.focus();
 }
 function resumenTexto(texto){
-    resumen.innerHTML = `Total de palabras: ${texto.length}<br>Total de caracteres: ${contarCaracteres(texto)}<br>Palabra más grande: ${texto[0]}<br>Palabra más pequeña: ${texto[texto.length-1]}<br>Palabras con más de 5 letras: ${palabrasCon5Letras(texto)}<br>`;
+    resumen.innerHTML = `Total de palabras: ${texto.length}<br>Total de caracteres: ${contarCaracteres(texto)}<br>Palabra más grande: ${texto[0]}<br>Palabra más pequeña: ${texto[texto.length-1]}<br>Palabras con más de 5 letras: ${palabrasCon5Letras(texto)}<br>Palabras que son palíndromas: ${detectarPalindromos(texto)}<br>${topLongitud(texto)}`;
 }
 function topLongitud(texto){
-    resumen.innerHTML+= `Top 3 palabras más largas: <br>${texto[0]}, ${texto[1]}, ${texto[2]}<br>`
+    return `Top 3 palabras más largas: ${texto[0]}, ${(texto[1] === undefined)?"":texto[1]}, ${(texto[2] === undefined)?"":texto[2]}.<br>`
 }
-// PALABRAS ÚNICAS Y CONTAR CUANTAS VECES APARECE CADA PALABRA
-// DETECTAR PALÍNDROMOS.
+function detectarPalindromos(texto){
+    let result="";
+    let aux="";
+    for (let i = 0; i<texto.length;i++){
+        for (let j = 0; j<texto[i].length;j++){
+            aux+= texto[i][(texto[i].length-1)-j];
+        }
+        if (aux == texto[i]){
+            result+=(texto[i])+",";
+        }
+        aux = "";
+    }
+    if (result == ""){
+        return "Ninguna";
+    } else {
+        return result;
+    }
+}
+function eliminarRepetidas(texto){
+    return [...new Set(texto)];
+}
+function contarRepeticiones(texto){
+    let aux = [];
+    let aux2 = "";
+    let copia = [...texto];
+    let contador = 1;
+    for (let i = 0; i<copia.length;i++){
+        aux2 = copia[i]
+        if (aux2 != ""){
+            for (let j=i;j<copia.length-1;j++){
+            if (aux2 == copia[j+1]){
+                contador++
+                copia[j+1] = "";
+            }
+        }
+        aux.push(`${aux2 + " --> " + contador}`)
+        contador = 1;
+        }
+    }
+    return aux;
+}
+// CONTAR CUANTAS VECES APARECE CADA PALABRA
