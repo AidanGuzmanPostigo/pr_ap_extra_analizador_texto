@@ -138,4 +138,3 @@ function contarRepeticiones(texto){
     }
     return aux;
 }
-// CONTAR CUANTAS VECES APARECE CADA PALABRA
